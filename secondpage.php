@@ -12,13 +12,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Library</title>
     <style>
+
+        button{
+            display: inline-block;
+            padding: 10px 20px;
+            background-color:#1e7b7b;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 2px 0;
+            text-align: center;
+        }
+        form{
+            text-align: center;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
         header {
-            background-color: lightblue;
+            background-color: #1e7b7b;
             color: #fff;
             padding: 10px 20px;
             text-align: center;
@@ -45,7 +62,7 @@
             font-size: 50px;
         }
         footer {
-            background-color: #333;
+            background-color: #1e7b7b;
             color: #fff;
             text-align: center;
             padding: 10px;
@@ -104,6 +121,9 @@
         <a href="secondpage.php">Home</a>
         <a href="bookhistory.php">Book History</a>
     </nav>
+    <form method="post" action="logout.php">
+            <button type="submit" name="logout">Logout</button> 
+        </form>
     <div class="search-container">
         <form action="secondpage.php" method="GET">
             <input type="text" name="query" placeholder="Search ">
