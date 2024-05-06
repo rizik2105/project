@@ -17,8 +17,8 @@
             padding: 0;
         }
         header {
-            background-color: #333;
-            color: #fff;
+            background-color: #408b88;
+            color: #070210;
             padding: 10px 20px;
             text-align: center;
         }
@@ -29,7 +29,7 @@
             text-align: center;
         }
         nav a {
-            color: #fff;
+            color:  #100e0f;
             text-decoration: none;
             padding: 10px 20px;
         }
@@ -44,8 +44,8 @@
         }
         }
         footer {
-            background-color: #333;
-            color: #fff;
+            background-color:  #4d918f;
+            color:  #070107;
             text-align: center;
             padding: 10px;
             position: fixed;
@@ -62,8 +62,21 @@
             text-align: center;
         }
         th {
-            background-color: #f2f2f2;
-            color: #333;
+            background-color: #1e7b7b;
+            color: #1c0404;
+        }
+        button{
+            display: inline-block;
+            padding: 10px 20px;
+            background-color:  #1e7b7b;
+            color:  #1c0404;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 2px 0;
+            text-align: center;
         }
     </style>
 </head>
