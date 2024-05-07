@@ -118,8 +118,8 @@
         <h1>College Library</h1>
     </header>
     <nav>
-        <a href="secondpage.php">Home</a>
         <a href="bookhistory.php">Book History</a>
+
     </nav>
     <form method="post" action="logout.php">
             <button type="submit" name="logout">Logout</button> 
@@ -136,12 +136,13 @@
         <h1> Books List</h1>
 
 
-        <table>
+        <table id="mytable">
             <tr>
                 <th>S No.</th>
                 <th>Book Name</th>
                 <th>Author Name</th>
                 <th>Available</th>
+                <th>Actions</th>
                 
             </tr>
             <tr>
@@ -149,18 +150,57 @@
                 <td>Python Learning edition 2</td>
                 <td>Mark Lutz </td>
                 <td>yes</td>
+                <td>
+                <button onclick="editRow(this)">Edit</button>
+                <button onclick="deleteRow(this)">Delete</button>
+            </td>
             </tr>
             <tr>
                 <td>102</td>
                 <td>Let Us C</td>
                 <td>Yashavant P Kanetkar</td>
                 <td>yes</td>
+            <td>
+                <button onclick="editRow(this)">Edit</button>
+                <button onclick="deleteRow(this)">Delete</button>
+             </td>
             </tr>
         </table>
     </section>
     <footer>
         <p>&copy;  College Library Management System</p>
     </footer>
-    
+    <script>
+    function editRow(button) {
+        var row = button.parentNode.parentNode;
+        var cells = row.getElementsByTagName("td");
+        var SNo = cells[0].innerText;
+        var BookName = cells[1].innerText;
+        var AuthorName = cells[2].innerText;
+        var Available = cells[3].innerText;
+
+
+
+
+
+        var SNo = prompt("S No.", name);
+        var BookName = prompt("Book Name", email);
+        var AuthorName = prompt("Author Name", email);
+        var Available = prompt("Available", email);
+
+
+        if (newName !== null && newEmail !== null) {
+            cells[0].innerText = SNo;
+            cells[1].innerText = BookName;
+            cells[2].innerText = AuthorName;
+            cells[3].innerText = Available;
+        }
+    }
+
+    function deleteRow(button) {
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+</script>
 </body>
 </html>
