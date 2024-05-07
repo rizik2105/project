@@ -30,5 +30,6 @@
     <img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="1500" height="150">
     <p><a href="signup.php">create account</a></p>
     <p><a href="signin.php">student Login</a></p>
+    <p><a href="facultylogin..php">Faculty login</a></p>
 </body>
 </html>
