@@ -78,23 +78,10 @@ input[type="submit"] {
     <?php
     include 'conn.php';
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        // if (!empty($_POST['ROLLNO'])) {
-        //     echo '<script>
-        //  document.getElementById("error").innerHTML = "Invalid ROLLNO format";
-        //  </script>';
-        // } else {
-            // $data = "SELECT `ROLLNO` FROM signup WHERE ROLLNO = '" . $_POST['ROLLNO'] . "'";
-            // $result = $conn->query($data);
-        //     if ($result->num_rows > 0) {
-        //         echo '<script>
-        //    document.getElementById("error").innerHTML = "ROLLNO already exsits";
-        //    </script>';
-        //     } else {
                 $query = "INSERT INTO `signup`(`firstname`, `lastname`, `ROLLNO`, `password`, `role`) VALUES ('".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['ROLLNO']."','".$_POST['password']."','".$_POST['role']."');";
                 $conn->query($query);
                 header("Location: signin.php");
-        //     }
-        // }
+
     }
     ?>
     
@@ -107,8 +94,8 @@ input[type="submit"] {
             <input type="text" name="firstname" placeholder="First Name" required><br>
             <input type="text" name="lastname" placeholder="last name" required><br>
             <input type="text" name="ROLLNO" placeholder="Roll No/username" required><br>
-            <input type="password" minlength="8" name="password" placeholder="Password" id="pass" required><br>
-            <input type="password" minlength="8" name="Reenterpassword" placeholder="Re-enter Password" id="conf_pass" required><br>
+            <input type="password" minlength="5" name="password" placeholder="Password" id="pass" required><br>
+            <input type="password" minlength="5" name="Reenterpassword" placeholder="Re-enter Password" id="conf_pass" required><br>
             <select name="role" required>
                 <option value="">Select Role</option>
                 <option value="student" name="student">Student</option>
