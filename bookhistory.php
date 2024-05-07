@@ -23,14 +23,14 @@
             text-align: center;
         }
         nav {
-            background-color: #444;
+            background-color: black;
             color: #fff;
             padding: 10px;
             text-align: center;
         }
         nav a {
-            color:  #100e0f;
-            text-decoration: none;
+            color: white ;
+            text-decoration: box-shadow;
             padding: 10px 20px;
         }
         nav a:hover {
@@ -90,32 +90,45 @@
     </nav>
     <section>
         <h2>Borrowed Books</h2>
-        <table>
-            <tr>
-                <th>book number</th>
-                <th>book name</th>
-                <th>Borrowed Date</th>
-                <th>Return Date</th>
-                <th>due/on time</th>
-                <th>late fees have to pay</th>
-            </tr>
-            <tr>
-                <td>101</td>
-                <td>Python Learning edition 2</td>
-                <td>27-02-2024</td>
-                <td>25-10-2024</td>
-                <td>on time</td>
-                <td>0rs</td>
-            </tr>
-            <tr>
-                <td>102</td>
-                <td>Let Us C</td>
-                <td>05-05-2023</td>
-                <td>14-04-2024</td>
-                <td>Due</td>
-                <td>50rs</td>
-            </tr>
-        </table>
+        <table id="myTable">
+    <thead>
+        <tr>
+            <th>Book Number</th>
+            <th>Book Name</th>
+            <th>Borrowed Date</th>
+            <th>Return Date</th>
+            <th>Due/On Time</th>
+            <th>Late Fees</th>
+            <th>Actions</th> <!-- New column for edit/delete buttons -->
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>101</td>
+            <td>Python Learning edition 2</td>
+            <td>27-02-2024</td>
+            <td>25-10-2024</td>
+            <td>On Time</td>
+            <td>0rs</td>
+            <td>
+                <button onclick="editRow(this)">Edit</button>
+                <button onclick="deleteRow(this)">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>102</td>
+            <td>Let Us C</td>
+            <td>05-05-2023</td>
+            <td>14-04-2024</td>
+            <td>Due</td>
+            <td>50rs</td>
+            <td>
+                <button onclick="editRow(this)">Edit</button>
+                <button onclick="deleteRow(this)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
     </section>
     <footer>
         <p>&copy; 2024 College Library Management System</p>
@@ -123,5 +136,25 @@
     <form method="post" action="logout.php">
             <button type="submit" name="logout">Logout</button> 
         </form>
+        <script>
+    function editRow(button) {
+        var row = button.parentNode.parentNode;
+        var cells = row.getElementsByTagName("td");
+        var name = cells[0].innerText;
+        var email = cells[1].innerText;
+        var newName = prompt("Enter new name:", name);
+        var newEmail = prompt("Enter new email:", email);
+
+        if (newName !== null && newEmail !== null) {
+            cells[0].innerText = newName;
+            cells[1].innerText = newEmail;
+        }
+    }
+
+    function deleteRow(button) {
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+</script>
 </body>
 </html>
