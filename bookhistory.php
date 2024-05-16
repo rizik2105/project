@@ -48,9 +48,9 @@
             color:  #070107;
             text-align: center;
             padding: 10px;
-            position: fixed;
+            /* position: fixed;
             bottom: 0;
-            width: 100%;
+            width: 100%; */
         }
         table {
             width: 100%;
@@ -78,6 +78,14 @@
             margin: 2px 0;
             text-align: center;
         }
+        body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+footer{
+    margin-top: auto;
+}
     </style>
 </head>
 <body>
@@ -91,7 +99,7 @@
     <section>
         <h2>Borrowed Books</h2>
         <table id="myTable">
-    <thead>
+        
         <tr>
             <th>Book Number</th>
             <th>Book Name</th>
@@ -99,62 +107,76 @@
             <th>Return Date</th>
             <th>Due/On Time</th>
             <th>Late Fees</th>
-            <th>Actions</th> <!-- New column for edit/delete buttons -->
+            <th>Actions</th> 
         </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>101</td>
-            <td>Python Learning edition 2</td>
-            <td>27-02-2024</td>
-            <td>25-10-2024</td>
-            <td>On Time</td>
-            <td>0rs</td>
-            <td>
-                <button onclick="editRow(this)">Edit</button>
-                <button onclick="deleteRow(this)">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>102</td>
-            <td>Let Us C</td>
-            <td>05-05-2023</td>
-            <td>14-04-2024</td>
-            <td>Due</td>
-            <td>50rs</td>
-            <td>
-                <button onclick="editRow(this)">Edit</button>
-                <button onclick="deleteRow(this)">Delete</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+    
+        </table>
+        <button onclick="addRow()">Add New Row</button>
     </section>
+    <form method="post" action="logout.php">
+        <button type="submit" name="logout">Logout</button> 
+    </form>
     <footer>
         <p>&copy; 2024 College Library Management System</p>
     </footer>
-    <form method="post" action="logout.php">
-            <button type="submit" name="logout">Logout</button> 
-        </form>
         <script>
-    function editRow(button) {
-        var row = button.parentNode.parentNode;
-        var cells = row.getElementsByTagName("td");
-        var name = cells[0].innerText;
-        var email = cells[1].innerText;
-        var newName = prompt("Enter new name:", name);
-        var newEmail = prompt("Enter new email:", email);
+        function editRow(button) {
+            var row = button.parentNode.parentNode;
+            var cells = row.getElementsByTagName("td");
+            var BookNumber = cells[0].innerText;
+            var BookName = cells[1].innerText;
+            var BorrowedDate = cells[2].innerText;
+            var ReturnDate = cells[3].innerText;
+            var DueOnTime = cells[4].innerText;
+            var LateFees = cells[5].innerText;
 
-        if (newName !== null && newEmail !== null) {
-            cells[0].innerText = newName;
-            cells[1].innerText = newEmail;
+            var newBookNumber = prompt("Book Number", BookNumber);
+            var newBookName = prompt("Book Name", BookName);
+            var newBorrowedDate = prompt("Borrowed Date", BorrowedDate);
+            var newReturnDate = prompt("Return Date", ReturnDate);
+            var newDueOnTime = prompt("Due/On Time", DueOnTime);
+            var newLateFees = prompt("Late Fees", LateFees);
+
+            if (newBookNumber !== null && newBookName !== null && newBorrowedDate !== null && newReturnDate !== null && newDueOnTime !== null && newLateFees !== null) {
+                cells[0].innerText = newBookNumber;
+                cells[1].innerText = newBookName;
+                cells[2].innerText = newBorrowedDate;
+                cells[3].innerText = newReturnDate;
+                cells[4].innerText = newDueOnTime;
+                cells[5].innerText = newLateFees;
+            }
         }
-    }
 
-    function deleteRow(button) {
-        var row = button.parentNode.parentNode;
-        row.parentNode.removeChild(row);
-    }
-</script>
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function addRow() {
+            var table = document.getElementById("myTable");
+            var newRow = table.insertRow(-1); // Insert row at the last position
+
+            var cell1 = newRow.insertCell(0); // Insert cells to the new row
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
+            var cell7 = newRow.insertCell(6);
+
+            
+            cell1.innerHTML = "New Book Number";
+            cell2.innerHTML = "New Book Name";
+            cell3.innerHTML = "New Borrowed Date";
+            cell4.innerHTML = "New Return Date";
+            cell5.innerHTML = "New Due/On Time";
+            cell6.innerHTML = "New Late Fees";
+
+            
+            cell7.innerHTML = '<button onclick="editRow(this)">Edit</button>' + 
+                              '<button onclick="deleteRow(this)">Delete</button>';
+        }
+    </script>
 </body>
 </html>
