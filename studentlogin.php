@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $conn->query($query);
     if ($result && $result->num_rows > 0) {
         $_SESSION["minor"] = "1";
-        header("Location:secondpage.php");
+        header("Location:studentpage.php");
         exit(); 
     } else {
         echo '<script>alert("Invalid Roll No or Password. Please try again.");</script>';
