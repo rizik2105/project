@@ -4,9 +4,14 @@
         header("location:./signin.php");
     }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borrowed Books - College Library</title>
@@ -98,20 +103,84 @@ footer{
     </nav>
     <section>
         <h2>Borrowed Books</h2>
-        <table id="myTable">
-        
-        <tr>
-            <th>Book Number</th>
-            <th>Book Name</th>
-            <th>Borrowed Date</th>
-            <th>Return Date</th>
-            <th>Due/On Time</th>
-            <th>Late Fees</th>
-            <th>Actions</th> 
-        </tr>
 
-    
+
+
+
+
+
+
+
+
+            
+<?php
+include "conn.php";
+$q="select * from book_history";
+$result=$conn->query($q);
+if ($result->num_rows > 0) 
+{
+	$count=1;
+	
+	echo '<table id="example" class="table table-striped" style="width:100%">
+	<thead>
+    <tr>
+    <th>S NO</th>
+    <th>Book Name</th>
+    <th>Borrowed Date</th>
+    <th>Return Date</th>
+    <th>Due/On Time</th>
+    <th>Late Fees</th>
+    <th>Actions</th> 
+</tr>
+	</thead><tbody>
+	';
+	while($row = $result->fetch_assoc()) 
+	{
+		echo "<tr><td>" . $count++. "</td>
+		<td>" . ucwords(strtolower($row["bookname"])). "</td>
+		<td>" . ucwords(strtolower($row["borroweddate"])). "</td>
+		<td>" . ucwords(strtolower($row["returndate"])). "</td>
+        <td>" . ucwords(strtolower($row["dueontime"])). "</td>
+        <td>" . ucwords(strtolower($row["latefees"])). "</td>
+
+
+		<td><form action='editbh.php' method='post'>
+<input type='hidden' value='".$row["sno"]."' name='s no.'>
+<input type='submit' value='Edit'>
+</form></td></tr>";
+	}
+	
+} 
+else 
+{
+  echo "0 results";
+}
+$conn->close();
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <table id="myTable">
         </table>
+
+
+
+
+
+
+
         <button onclick="addRow()">Add New Row</button>
     </section>
     <form method="post" action="logout.php">
@@ -123,7 +192,7 @@ footer{
         <script>
         function editRow(button) {
             var row = button.parentNode.parentNode;
-            var cells = row.getElementsByTagName("td");
+            var cells = row.getElementsByTagName("th");
             var BookNumber = cells[0].innerText;
             var BookName = cells[1].innerText;
             var BorrowedDate = cells[2].innerText;
