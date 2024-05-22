@@ -1,7 +1,6 @@
 <?php
-include "conn.php";
 session_start();
-header("Location:secondpage.php");
+include"conn.php";
 
 ?>
 
@@ -70,6 +69,20 @@ header("Location:secondpage.php");
         <input type="submit" value="Login">
     </form>
 </div>
-
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
+    $password = $_POST['password'];
+    $query = "SELECT * FROM faculty WHERE id = '$id' AND password = '$password'";
+    $result = $conn->query($query);
+    if ($result && $result->num_rows > 0) {
+        $_SESSION["minor"] = "1";
+        header("Location:secondpage.php");
+        exit(); 
+    } else {
+        echo '<script>alert("Invalid Roll No or Password. Please try again.");</script>';
+    }
+}
+?>
 </body>
 </html>
