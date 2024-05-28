@@ -10,7 +10,7 @@
     <title>minor</title>
 </head>
 <body>
-<img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="1500" height="150">
+<img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="2000" height="150">
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,6 +65,16 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+        footer {
+            background-color: #3475b0;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -91,6 +101,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<script>alert("Invalid Roll No or Password. Please try again.");</script>';
     }
 }
+
 ?>
+<footer>
+<p>Libary Management 2024</p>
+<p>Copyright © 2024 All Rights Reserved</p>
+
+
+</footer>
+
 </body>
 </html>
