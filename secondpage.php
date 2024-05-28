@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         nav a {
-            color: #fff;
+            color: gray;
             text-decoration: box-shadow;
             padding: 10px 20px;
         }
@@ -122,9 +122,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #fff;
             text-align: center;
             padding: 10px;
-            /* position: fixed;
+             position: fixed;
             bottom: 0;
-            width: 100%; */
+            width: 100%; 
         }
 
         table {
@@ -189,6 +189,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         footer {
             margin-top: auto;
         }
+        
+            
+
+
+
     </style>
 </head>
 
@@ -197,8 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>College Library</h1>
     </header>
     <nav>
-        <a href="bookhistory.php">Book History</a>
-
+    
     </nav>
     <form method="post" action="logout.php">
         <button type="submit" name="logout">Logout</button>
@@ -213,109 +217,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <h1> Books List</h1>
 
-        <button onclick="addRow()">Add New Row</button>
+        
 
-        <table id="mytable">
-            <thead>
-                <tr>
-                    <th>S No.</th>
-                    <th>Book Name</th>
-                    <th>Author Name</th>
-                    <th>Available</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
 
-            </tbody>
-            <button class="button" onclick="saveData()">Save</button>
-        </table>
 
-    </section>
+        <?php
+include "conn.php";
+$q="select * from book_history";
+$result=$conn->query($q);
+if ($result->num_rows > 0) 
+{
+	$count=1;
+	
+	echo '<table id="example" class="table table-striped" style="width:100%">
+	<thead>
+    <tr>
+    <th>S NO</th>
+    <th>Book Name</th>
+    <th>Borrowed Date</th>
+    <th>Return Date</th>
+    <th>Due/On Time</th>
+    <th>Late Fees</th>
+    <th>Actions</th> 
+    </tr>
+	</thead><tbody>
+	';
+	while($row = $result->fetch_assoc()) 
+	{
+		echo "<tr><td>" . $count++. "</td>
+		<td>" . ucwords(strtolower($row["bookname"])). "</td>
+		<td>" . ucwords(strtolower($row["borroweddate"])). "</td>
+		<td>" . ucwords(strtolower($row["returndate"])). "</td>
+        <td>" . ucwords(strtolower($row["dueontime"])). "</td>
+        <td>" . ucwords(strtolower($row["latefees"])). "</td>
+
+
+		<td><form action='editbh.php' method='post'>
+<input type='hidden' value='".$row["sno"]."' name='s no.'>
+<input type='submit' value='view'>
+</form></td></tr>";
+	}
+	
+} 
+else 
+{
+  echo "0 results";
+}
+$conn->close();
+?>
+        
+
+
+    
+
+
     <footer>
         <p> College Library Management System</p>
     </footer>
-
-    <script>
-        function editRow(value) {
-            let button = document.getElementById("edit" + value);
-            let row = button.parentNode.parentNode;
-
-            let bookName = row.children[1].innerText;
-            let authorName = row.children[2].innerText;
-            let available = row.children[3].innerText;
-
-            var BookName = prompt("Book Name", bookName);
-            var AuthorName = prompt("Author Name", authorName);
-            var Available = prompt("Available", available);
-
-
-            if (BookName !== null && AuthorName !== null && Available !== null) {
-                table_body = document.getElementById("table-body");
-
-                let Add_row = new XMLHttpRequest();
-                Add_row.open("GET", "./fetch.php?" + value + "=true", true);
-                Add_row.send();
-
-                Add_row.onreadystatechange = (() => {
-                    if (Add_row.readyState == 4 && Add_row.status == 200) {
-                        table_body.innerHTML = Add_row.responseText;
-                    }
-                })
-            }
-        }
-
-
-        function saveData(button) {
-            alert('Data ');
-        }
-
-
-
-        function deleteRow(button) {
-            console.log(button);
-            // var row = button.parentNode.parentNode;
-            // row.parentNode.removeChild();
-        }
-
-
-        function fetch_table(value) {
-            table_body = document.getElementById("table-body");
-
-            let Add_row = new XMLHttpRequest();
-            Add_row.open("GET", "./fetch.php?" + value + "=true", true);
-            Add_row.send();
-
-            Add_row.onreadystatechange = (() => {
-                if (Add_row.readyState == 4 && Add_row.status == 200) {
-                    table_body.innerHTML = Add_row.responseText;
-                }
-            })
-        }
-
-        function addRow() {
-            fetch_table("add_row");
-        }
-        fetch_table("fetch_table");
-    </script>
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $sno = $_POST['sno.'];
-        $bookname = $_POST['bookname'];
-        $authorname = $_POST['authorname'];
-        $available = $_POST['available'];
-        $query = "INSERT * INTO second_page WHERE sno = '$sno'AND bookname = '$bookname' AND authorname = '$authorname' AND available = '$available'";
-        $result = $conn->query($query);
-        if ($result && $result->num_rows > 0) {
-            echo "new record insert successfully";
-            exit();
-        } else {
-            echo '<script>alert("Invalid Roll No or Password. Please try again.");</script>';
-        }
-    }
-    ?>
-
-
         
 </body>
 
