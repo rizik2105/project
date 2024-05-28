@@ -68,7 +68,16 @@ input[type="submit"] {
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
+        footer {
+            background-color: #3475b0;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
     
 </head>
@@ -78,7 +87,7 @@ input[type="submit"] {
     <?php
     include 'conn.php';
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                $query = "INSERT INTO `signup`(`firstname`, `lastname`, `ROLLNO`, `password`, `role`) VALUES ('".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['ROLLNO']."','".$_POST['password']."','".$_POST['role']."');";
+                $query = "INSERT INTO signup(firstname, lastname, ROLLNO, password, role) VALUES ('".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['ROLLNO']."','".$_POST['password']."','".$_POST['role']."');";
                 $conn->query($query);
                 header("Location: signin.php");
 
@@ -87,7 +96,7 @@ input[type="submit"] {
     
      
     <div>
-        <img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="1500" height="150">
+        <img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="2000" height="150">
         <div class="container">
         <h2>Create account</h2>
         <form action="signup.php" method="post">
@@ -129,5 +138,11 @@ input[type="submit"] {
         conf_password.addEventListener("input", checkPasswords);
         
     </script>
+    <footer>
+        <p>Libary Management 2024</p>
+        <p>Copyright © 2024 All Rights Reserved</p>
+
+
+    </footer>
 </body>
 </html>
