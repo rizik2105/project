@@ -1,87 +1,30 @@
 <?php
 include "conn.php";
 session_start();
+
 if (!isset($_SESSION["minor"])) {
-    header("location:./signin.php");
-    session_start();
-    if (!isset($_SESSION["minor"])) {
-        header("location:./signin.php");
-    }
-
-
-    $query = "INSERT * INTO second_page";
-    $result = mysqli_query($conn, $query);
-
-    echo "<table id='mytable'>";
-    echo "<tr>
-            <th>S No.</th>
-            <th>Book Name</th>
-            <th>Author Name</th>
-            <th>Available</th>
-            <th>Actions</th>
-          </tr>";
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "<tr>
-                <td>{$row['S No.']}</td>
-                <td>{$row['Book Name']}</td>
-                <td>{$row['Author Name']}</td>
-                <td>{$row['Available']}</td>
-                <td>
-                    <button onclick='Save(this)'>Edit</button>
-                    <button onclick='editRow(this)'>Edit</button>
-                    <button onclick='deleteRow(this)'>Delete</button>
-                </td>
-              </tr>";
-    }
-    echo "</table>";
+    header("location:./studentlogin.php");
+    exit();
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $conn->real_escape_string($_POST['name']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $age = $conn->real_escape_string($_POST['age']);
 
-    $sql = "INSERT INTO users (name, email, age) VALUES ('$name', '$email', '$age')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    $conn->close();
-}
+$query = "SELECT * FROM book_history";
+$result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Library</title>
     <style>
-        button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #1e7b7b;
-            color: white;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 2px 0;
-            text-align: center;
-        }
-
-        form {
-            text-align: center;
-        }
-
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
@@ -100,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         nav a {
             color: gray;
-            text-decoration: box-shadow;
+            text-decoration: none;
             padding: 10px 20px;
         }
 
@@ -111,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         section {
             padding: 20px;
             text-align: center;
+            flex: 1;
         }
 
         h1 {
@@ -122,9 +66,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #fff;
             text-align: center;
             padding: 10px;
-             position: fixed;
+            position: fixed;
             bottom: 0;
-            width: 100%; 
+            width: 100%;
         }
 
         table {
@@ -144,56 +88,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #333;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .search-container {
-            text-align: right;
-            margin-top: 50px;
-        }
-
-        .search-container input[type=text] {
-            padding: 10px;
-            width: 100px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-        }
-
-        .search-container input[type=submit] {
+        .button {
+            display: inline-block;
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #1e7b7b;
             color: white;
+            text-decoration: none;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin: 2px 0;
+            text-align: center;
         }
 
-        .search-container input[type=submit]:hover {
-            background-color: #45a049;
-        }
-
-        .button {
-            text-align: right;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        .logout-container {
+            text-align: center;
+            margin: 20px 0;
         }
 
         footer {
             margin-top: auto;
         }
-        
-            
-
-
-
     </style>
 </head>
 
@@ -202,79 +118,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>College Library</h1>
     </header>
     <nav>
-    
+        <!-- Navigation links can be added here -->
     </nav>
-    <form method="post" action="logout.php">
-        <button type="submit" name="logout">Logout</button>
-    </form>
-    <div class="search-container">
-        <form action="secondpage.php" method="GET">
-            <input type="text" name="query" placeholder="Search ">
-            <input type="submit" value="Search">
-        </form>
-    </div>
     <section>
-
-        <h1> Books List</h1>
-
-        
-
-
-
-        <?php
-include "conn.php";
-$q="select * from book_history";
-$result=$conn->query($q);
-if ($result->num_rows > 0) 
-{
-	$count=1;
-	
-	echo '<table id="example" class="table table-striped" style="width:100%">
-	<thead>
-    <tr>
-    <th>S NO</th>
-    <th>Book Name</th>
-    <th>Borrowed Date</th>
-    <th>Return Date</th>
-    <th>Due/On Time</th>
-    <th>Late Fees</th>
-    <th>Actions</th> 
-    </tr>
-	</thead><tbody>
-	';
-	while($row = $result->fetch_assoc()) 
-	{
-		echo "<tr><td>" . $count++. "</td>
-		<td>" . ucwords(strtolower($row["bookname"])). "</td>
-		<td>" . ucwords(strtolower($row["borroweddate"])). "</td>
-		<td>" . ucwords(strtolower($row["returndate"])). "</td>
-        <td>" . ucwords(strtolower($row["dueontime"])). "</td>
-        <td>" . ucwords(strtolower($row["latefees"])). "</td>
-
-
-		<td><form action='editbh.php' method='post'>
-<input type='hidden' value='".$row["sno"]."' name='s no.'>
-<input type='submit' value='view'>
-</form></td></tr>";
-	}
-	
-} 
-else 
-{
-  echo "0 results";
-}
-$conn->close();
-?>
-        
-
-
-    
-
-
+        <h1>Books List</h1>
+        <table id="mytable">
+            <thead>
+                <tr>
+                    <th>S No.</th>
+                    <th>Book Name</th>
+                    <th>Author Name</th>
+                    <th>Available</th>
+                    <th>Borrowed Date</th>
+                    <th>Return Date</th>
+                    <th>Due/On Time</th>
+                    <th>Late Fees</th>
+                    <th>book location</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result->num_rows > 0) {
+                    $count = 1;
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr>
+                            <td>{$count}</td>
+                            <td>" . ucwords(strtolower($row["bookname"])) . "</td>
+                            <td>" . ucwords(strtolower($row["author"])) . "</td>
+                            <td>" . ucwords(strtolower($row["available"])) . "</td>
+                            <td>" . ucwords(strtolower($row["borroweddate"])) . "</td>
+                            <td>" . ucwords(strtolower($row["returndate"])) . "</td>
+                            <td>" . ucwords(strtolower($row["dueontime"])) . "</td>
+                            <td>" . ucwords(strtolower($row["latefees"])) . "</td>
+                            <td>" . ucwords(strtolower($row["booklocation"])) . "</td>
+                            <td>
+                                <form action='editbh.php' method='post' style='display:inline-block;'>
+                                    <input type='hidden' name='item_id' value='{$row["sno"]}'>
+                                    <button type='submit' class='button'>Edit</button>
+                                </form>
+                               
+                            </td>
+                        </tr>";
+                        $count++;
+                    }
+                } else {
+                    echo "<tr><td colspan='9'>No results found</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+        <div class="logout-container">
+            <form method="post" action="logout.php">
+                <button type="submit" name="logout" class="button">Logout</button>
+            </form>
+        </div>
+    </section>
     <footer>
-        <p> College Library Management System</p>
+        <p>College Library Management System</p>
     </footer>
-        
 </body>
 
 </html>
