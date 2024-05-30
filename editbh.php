@@ -22,40 +22,51 @@ table {
 <body>
 <?php
 include "conn.php";
-$q="select * from book_history ";
+if(isset($_POST['item_id'])){
+    $sno = $_POST['item_id'];
+} else {
+    header("location:./secondpage.php");
+    exit;
+}
+$q="select * from book_history where sno = $sno";
 //echo $q;
 $result=$conn->query($q);
 if ($result->num_rows > 0) 
 {
 	if($row = $result->fetch_assoc()) 
 	{
+        
 		$bookname=$row['bookname'];
+        $author=$row['author'];
+        $available=$row['available'];
 		$borroweddate=$row['borroweddate'];
 		$returndate=$row['returndate'];
 		$dueontime=$row['dueontime'];
-        $latefees=$row['latefees'];		
+        $latefees=$row['latefees'];	
+        $booklocation=$row['booklocation'];	
 	}
 }
 ?>
 <form action="update.php" method="post">
 <table>
-<tr><td>BookName</td><td><input type="text" name="booknamename" value="<?php echo $bookname;?>"></td></tr>
-<tr><td>borroweddate</td><td><input type="text" name="borroweddate" value="<?php echo $borroweddate;?>"></td></tr>
+    <input type="hidden" name="sno" value="<?php echo $sno; ?>">
+<tr><td>BookName</td><td><input type="text" name="bookname" value="<?php echo $bookname;?>"></td></tr>
+<tr><td>author</td><td><input type="text" name="author" value="<?php echo $author;?>"></td></tr>
+<tr><td>available</td><td><input type="text" name="available" value="<?php echo $available;?>"></td></tr>
+<tr><td>borrowed date</td><td><input type="text" name="borroweddate" value="<?php echo $borroweddate;?>"></td></tr>
 <tr><td>returndate</td><td><input type="text" name="returndate" value="<?php echo $returndate;?>"></td></tr>
 <tr><td>dueontime</td><td><input type="text" name="dueontime" value="<?php echo $dueontime;?>"></td></tr>
-
 <tr><td>latefees</td><td><input type="text" name="latefees" value="<?php echo $latefees;?>"></td></tr>
+<tr><td>location</td><td><input type="text" name="booklocation" value="<?php echo $booklocation;?>"></td></tr>
 <tr><td></td><td><input type='submit' value='Update'></td></tr>
 
 </table>
 </form>
 <h1>borrowers</h1>
 
-<form action="borrowstu.php" method="post">
+<form action="studentlist.php" method="post">
 <table>
-<tr><td>student list</td><td><input type="text" name="firstname" >
-
-<input type="text" name="firstname" value=></td></tr>
+<tr><td>student list</td><td><input type="list" name="firstname" >
 
 </table>
 </form>
