@@ -2,10 +2,10 @@
 include "conn.php";
 session_start();
 if (!isset($_SESSION["minor"])) {
-    header("location:./signin.php");
+    header("location:./studentlogin.php");
     session_start();
     if (!isset($_SESSION["minor"])) {
-        header("location:./signin.php");
+        header("location:./studentlogin.php");
     }
 }
 ?>
@@ -33,10 +33,14 @@ if (!isset($_SESSION["minor"])) {
             font-size: 16px;
             margin: 2px 0;
             text-align: center;
+            
         }
+
+       
 
         form {
             display: inline-block;
+           
         }
 
         .button-container {
@@ -82,6 +86,12 @@ if (!isset($_SESSION["minor"])) {
 
         h1 {
             font-size: 50px;
+        }
+
+        .logout-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px; /* Adjust margin as needed */
         }
 
         footer {
@@ -170,31 +180,49 @@ if (!isset($_SESSION["minor"])) {
             border-color: #555 transparent transparent transparent;
         }
             
+        .borrow-button,
+        .location-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1e7b7b; /* Borrow button color */
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 2px 0;
+            text-align: center;
+        }
+
+        .location-button {
+            background-color: #1e7b7b; /* Location button color */
+        }
+
+        footer {
+            background-color: #1e7b7b;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
         
     </style>
 </head>
-
 <body>
     <header>
         <h1>College Library</h1>
     </header>
     <nav>
-        <!-- Navigation content -->
     </nav>
-    <form method="post" action="logout.php">
-        <button type="submit" name="logout">Logout</button>
-    </form>
-    <div class="search-container">
-        <form action="secondpage.php" method="GET">
-            <input type="text" name="query" placeholder="Search ">
-            <input type="submit" value="Search">
-        </form>
-    </div>
     <section>
         <h1>Books List</h1>
         <?php
         include "conn.php";
-        $q = "SELECT * FROM student";
+        $q = "SELECT * FROM book_history";
         $result = $conn->query($q);
         if ($result->num_rows > 0) {
             $count = 1;
@@ -215,11 +243,11 @@ if (!isset($_SESSION["minor"])) {
                         <div class='button-container'>
                             <form action='borrow.php' method='post'>
                                 <input type='hidden' value='" . $row["sno"] . "' name='sno'>
-                                <input type='submit' value='Borrow'>
+                                <input class='borrow-button' type='submit' value='Borrow'>
                             </form>
-                            <form action='location.php' method='post'>
+                            <form action='studentlocation.php' method='post'>
                                 <input type='hidden' value='" . $row["sno"] . "' name='sno'>
-                                <input type='submit' value='Location'>
+                                <input class='location-button' type='submit' value='Location'>
                             </form>
                         </div>
                     </td>
@@ -231,63 +259,11 @@ if (!isset($_SESSION["minor"])) {
         }
         $conn->close();
         ?>
+        <div class="logout-container">
+    <form method="post" action="logout.php">
+        <button type="submit" name="logout">Logout</button>
+    </form></div>
     </section>
-    <script>
-        function editRow(value) {
-            let button = document.getElementById("edit" + value);
-            let row = button.parentNode.parentNode;
-
-            let bookName = row.children[1].innerText;
-            let authorName = row.children[2].innerText;
-            let available = row.children[3].innerText;
-
-            var BookName = prompt("Book Name", bookName);
-            var AuthorName = prompt("Author Name", authorName);
-            var Available = prompt("Available", available);
-
-            if (BookName !== null && AuthorName !== null && Available !== null) {
-                table_body = document.getElementById("table-body");
-
-                let Add_row = new XMLHttpRequest();
-                Add_row.open("GET", "./fetch.php?" + value + "=true", true);
-                Add_row.send();
-
-                Add_row.onreadystatechange = (() => {
-                    if (Add_row.readyState == 4 && Add_row.status == 200) {
-                        table_body.innerHTML = Add_row.responseText;
-                    }
-                })
-            }
-        }
-
-        function saveData(button) {
-            alert('Data ');
-        }
-
-        function deleteRow(button) {
-            console.log(button);
-        }
-
-        function fetch_table(value) {
-            table_body = document.getElementById("table-body");
-
-            let Add_row = new XMLHttpRequest();
-            Add_row.open("GET", "./fetch.php?" + value + "=true", true);
-            Add_row.send();
-
-            Add_row.onreadystatechange = (() => {
-                if (Add_row.readyState == 4 && Add_row.status == 200) {
-                    table_body.innerHTML = Add_row.responseText;
-                }
-            })
-        }
-
-        function addRow() {
-            fetch_table("add_row");
-        }
-
-        fetch_table("fetch_table");
-    </script>
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sno = $_POST['sno.'];
@@ -304,13 +280,10 @@ if (!isset($_SESSION["minor"])) {
         }
     }
     ?>
-
-
-
-
-
-
-
+<footer>
+        <p>Libary Management 2024</p>
+        <p>Copyright © 2024 All Rights Reserved</p>
+    </footer>
 </body>
 
 </html>
