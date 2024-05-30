@@ -1,53 +1,56 @@
-<html>
-<head>
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-</style>
-</head>
-<body>
 <?php
 include "conn.php";
-$q="update book_history set bookname='".$_POST['bookname']."',
-borroweddate='".$_POST['borroweddate']."',returndate='".$_POST['returndate']."' ,dueontime='".$_POST['dueontime']."' ,latefees='".$_POST['latefees']."' ;
-where bookname='".$_POST['bookname']."'";
-if($result=$conn->query($q))
-{
-	?>
-<script>
-	alert("Successfully Updated!!");
-	window.location.href="secondpage.php";
-	</script>
-<?php
-}
-else
-{
-?>
-	<script>
-	alert("Not Updated!!");
-	window.location.href="secondpage.php";
-	</script>
-<?php
-}
 
-?>
-
-
-
-
-
-
-
-<?php
-include "conn.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $query = "SELECT * FROM signup WHERE firstname = '$firstname' AND lastname = '$lastname'";
-    $result = $conn->query($query);
+    // Get the input values
+    $sno = $_POST['sno'];
+    $bookname = $_POST['bookname'];
+    $borroweddate = $_POST['borroweddate'];
+    $author = $_POST['author'];
+    $available = $_POST['available'];
+    $returndate = $_POST['returndate'];
+    $dueontime = $_POST['dueontime'];
+    $latefees = $_POST['latefees'];
+    $booklocation = $_POST['booklocation'];
+
+
+    // Prepare the SQL statement
+    $q = "UPDATE book_history SET 
+        bookname = ?,
+        borroweddate = ?,
+        author = ?,
+        available = ?,
+        returndate = ?,
+        dueontime = ?,
+        latefees = ?,
+        booklocation = ?
+        WHERE sno = ?";
+
+    // Initialize prepared statement
+    if ($stmt = $conn->prepare($q)) {
+        // Bind parameters (s - string)
+        $stmt->bind_param("sssssssss", $bookname, $borroweddate, $author, $available, $returndate, $dueontime, $latefees, $booklocation, $sno);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            echo "<script>
+                alert(' Successfully Updated!!');
+                window.location.href='secondpage.php';
+                </script>";
+        } else {
+            echo "<script>
+                alert('Not Updated!!');
+                window.location.href='secondpage.php';
+                </script>";
+        }
+
+        // Close the statement
+        $stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error;
+    }
 }
-	?>
-</body>
-</html>
+
+// Close the connection
+$conn->close();
+?>
