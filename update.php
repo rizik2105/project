@@ -5,31 +5,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the input values
     $sno = $_POST['sno'];
     $bookname = $_POST['bookname'];
-    $borroweddate = $_POST['borroweddate'];
     $author = $_POST['author'];
     $available = $_POST['available'];
-    $returndate = $_POST['returndate'];
-    $dueontime = $_POST['dueontime'];
-    $latefees = $_POST['latefees'];
     $booklocation = $_POST['booklocation'];
+    $quantity = $_POST['quantity'];
 
 
     // Prepare the SQL statement
     $q = "UPDATE book_history SET 
         bookname = ?,
-        borroweddate = ?,
         author = ?,
         available = ?,
-        returndate = ?,
-        dueontime = ?,
-        latefees = ?,
-        booklocation = ?
+        booklocation = ?,
+        quantity = ?
         WHERE sno = ?";
 
     // Initialize prepared statement
     if ($stmt = $conn->prepare($q)) {
         // Bind parameters (s - string)
-        $stmt->bind_param("sssssssss", $bookname, $borroweddate, $author, $available, $returndate, $dueontime, $latefees, $booklocation, $sno);
+        $stmt->bind_param("ssssss", $bookname,$author, $available, $booklocation,$quantity, $sno);
 
         // Execute the statement
         if ($stmt->execute()) {
