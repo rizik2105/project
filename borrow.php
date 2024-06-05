@@ -1,31 +1,40 @@
 <?php
+include "conn.php";
 session_start();
-
-// Initialize the number of books if not set
-if (!isset($_SESSION['number_of_books'])) {
-    $_SESSION['number_of_books'] = 10; // starting with 10 books
+if (!isset($_SESSION["minor"])) {
+    header("location:./studentlogin.php");
+    exit();
 }
-
-// Check if the button is clicked
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['decrease'])) {
-        if ($_SESSION['number_of_books'] > 0) {
-            $_SESSION['number_of_books']--;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $sno = $_POST['sno'];
+    $checkQuery = "SELECT quantity FROM book_history WHERE sno = '$sno'";
+    $checkResult = $conn->query($checkQuery);
+    if ($checkResult->num_rows > 0) {
+        $row = $checkResult->fetch_assoc();
+        $quantity = $row['quantity'];
+        if ($quantity > 0) {
+            $updateQuery = "UPDATE book_history SET quantity = quantity - 1 WHERE sno = '$sno'";
+            if ($conn->query($updateQuery) === TRUE) {
+                $checkQuantityQuery = "SELECT quantity FROM book_history WHERE sno = '$sno'";
+                $checkQuantityResult = $conn->query($checkQuantityQuery);
+                if ($checkQuantityResult->num_rows > 0) {
+                    $updatedRow = $checkQuantityResult->fetch_assoc();
+                    $updatedQuantity = $updatedRow['quantity'];
+                    if ($updatedQuantity == 0) {
+                        $updateAvailableQuery = "UPDATE book_history SET available = 'No' WHERE sno = '$sno'";
+                        $conn->query($updateAvailableQuery);
+                    }
+                }
+                echo "<script>alert('Book borrowed successfully!'); window.location.href = 'studentpage.php';</script>";
+            } else {
+                echo "<script>alert('Error borrowing book: " . $conn->error . "'); window.location.href = 'studentpage.php';</script>";
+            }
+        } else {
+            echo "<script>alert('Book not available'); window.location.href = 'studentpage.php';</script>";
         }
+    } else {
+        echo "<script>alert('Invalid book selection'); window.location.href = 'studentpage.php';</script>";
     }
 }
+$conn->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Book Counter</title>
-</head>
-<body>
-    <h1>Number of Books: <?php echo $_SESSION['number_of_books']; ?></h1>
-    <form method="post">
-        <button type="submit" name="decrease">Decrease Number of Books</button>
-    </form>
-</body>
-</html>
