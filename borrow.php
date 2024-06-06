@@ -15,6 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($quantity > 0) {
             $updateQuery = "UPDATE book_history SET quantity = quantity - 1 WHERE sno = '$sno'";
             if ($conn->query($updateQuery) === TRUE) {
+
+                $rollNo = $_SESSION['rollNumber'];
+                $user_history= "INSERT INTO `user_history`(`rollno`, `booknumber`) VALUES ('$rollNo','$sno')";
+                $result = $conn->query($user_history);
+                
                 $checkQuantityQuery = "SELECT quantity FROM book_history WHERE sno = '$sno'";
                 $checkQuantityResult = $conn->query($checkQuantityQuery);
                 if ($checkQuantityResult->num_rows > 0) {
@@ -22,6 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $updatedQuantity = $updatedRow['quantity'];
                     if ($updatedQuantity == 0) {
                         $updateAvailableQuery = "UPDATE book_history SET available = 'No' WHERE sno = '$sno'";
+                    
+                        $conn->query($updateAvailableQuery);
+                    }
+                    else
+                    {
+                        $updateAvailableQuery = "UPDATE book_history SET available = 'Yes' WHERE sno = '$sno'";
+                    
                         $conn->query($updateAvailableQuery);
                     }
                 }
