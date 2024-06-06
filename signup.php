@@ -11,14 +11,15 @@ include "conn.php";
     <style>
         body {
             font-family: Arial, sans-serif;
+            
         }
 
         .container {
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             margin: 40px auto;
             background-color: #fff;
-            padding: 20px;
+            padding: 2px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -72,8 +73,8 @@ input[type="submit"] {
             background-color: #3475b0;
             color: white;
             text-align: center;
-            padding: 20px;
-            position: fixed;
+            padding: 2px;
+           
             left: 0;
             bottom: 0;
             width: 100%;
@@ -89,14 +90,14 @@ input[type="submit"] {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $query = "INSERT INTO signup(firstname, lastname, ROLLNO, password, role) VALUES ('".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['ROLLNO']."','".$_POST['password']."','".$_POST['role']."');";
                 $conn->query($query);
-                header("Location: signin.php");
+                header("Location: studentlogin.php");
 
     }
     ?>
     
      
     <div>
-        <img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="2000" height="150">
+        <img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="1300" height="120">
         <div class="container">
         <h2>Create account</h2>
         <form action="signup.php" method="post">
