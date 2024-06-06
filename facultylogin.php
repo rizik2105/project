@@ -70,7 +70,7 @@ include"conn.php";
     </style>
 </head>
 <body>
-<img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="2000" height="150">
+<img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="1500" height="120">
 <div class="container">
     <h2>Login</h2>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
