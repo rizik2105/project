@@ -129,11 +129,8 @@ $result = mysqli_query($conn, $query);
                     <th>Book Name</th>
                     <th>Author Name</th>
                     <th>Available</th>
-                    <th>Borrowed Date</th>
-                    <th>Return Date</th>
-                    <th>Due/On Time</th>
-                    <th>Late Fees</th>
                     <th>book location</th>
+                    <th>Books Available</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -147,17 +144,17 @@ $result = mysqli_query($conn, $query);
                             <td>" . ucwords(strtolower($row["bookname"])) . "</td>
                             <td>" . ucwords(strtolower($row["author"])) . "</td>
                             <td>" . ucwords(strtolower($row["available"])) . "</td>
-                            <td>" . ucwords(strtolower($row["borroweddate"])) . "</td>
-                            <td>" . ucwords(strtolower($row["returndate"])) . "</td>
-                            <td>" . ucwords(strtolower($row["dueontime"])) . "</td>
-                            <td>" . ucwords(strtolower($row["latefees"])) . "</td>
                             <td>" . ucwords(strtolower($row["booklocation"])) . "</td>
+                            <td>" . ucwords(strtolower($row["quantity"])) . "</td>
                             <td>
                                 <form action='editbh.php' method='post' style='display:inline-block;'>
                                     <input type='hidden' name='item_id' value='{$row["sno"]}'>
                                     <button type='submit' class='button'>Edit</button>
                                 </form>
-                               
+                                <form action='borrowers.php' method='post' style='display:inline-block;'>
+                                    <input type='hidden' name='item_id' value='{$row["sno"]}'>
+                                    <button type='submit' class='button'>Borrowers</button>
+                                </form>
                             </td>
                         </tr>";
                         $count++;
