@@ -65,8 +65,8 @@
             background-color: #3475b0;
             color: white;
             text-align: center;
-            padding: 20px;
-            position: fixed;
+            padding: 2px;
+            
             left: 0;
             bottom: 0;
             width: 100%;
@@ -74,7 +74,7 @@
     </style>
 </head>
 <body>
-    <img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="2000" height="150"><br>
+    <img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="1400" height="120"><br>
     
     <nav>
         <div class="dropdown">
