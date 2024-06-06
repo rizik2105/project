@@ -10,7 +10,7 @@
     <title>minor</title>
 </head>
 <body>
-<img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="2000" height="150">
+<img src="https://www.polygwalior.ac.in/mono3.jpg" alt="Description of the image" width="1300" height="150">
 
 <!DOCTYPE html>
 <html lang="en">
@@ -95,6 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $conn->query($query);
     if ($result && $result->num_rows > 0) {
         $_SESSION["minor"] = "1";
+
+        $row = $result->fetch_assoc();
+        $_SESSION['rollNumber'] = $row['ROLLNO'];
         header("Location:studentpage.php");
         exit(); 
     } else {
