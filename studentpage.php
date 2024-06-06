@@ -184,7 +184,7 @@ if (!isset($_SESSION["minor"])) {
         .location-button {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #1e7b7b; /* Borrow button color */
+            background-color: #1e7b7b; 
             color: white;
             text-decoration: none;
             border: none;
@@ -196,7 +196,7 @@ if (!isset($_SESSION["minor"])) {
         }
 
         .location-button {
-            background-color: #1e7b7b; /* Location button color */
+            background-color: #1e7b7b; 
         }
 
         footer {
@@ -239,9 +239,11 @@ if (!isset($_SESSION["minor"])) {
                     <td>" . ucwords(strtolower($row["bookname"])) . "</td>
                     <td>" . ucwords(strtolower($row["author"])) . "</td>
                     <td>" . ucwords(strtolower($row["available"])) . "</td>
+
+                    
                     <td>
                         <div class='button-container'>
-                            <form action='borrow.php' method='post'>
+                            <form   action='borrow.php' method='post'>
                                 <input type='hidden' value='" . $row["sno"] . "' name='sno'>
                                 <input class='borrow-button' type='submit' value='Borrow'>
                             </form>
@@ -249,6 +251,7 @@ if (!isset($_SESSION["minor"])) {
                                 <input type='hidden' value='" . $row["sno"] . "' name='sno'>
                                 <input class='location-button' type='submit' value='Location'>
                             </form>
+                            
                         </div>
                     </td>
                 </tr>";
